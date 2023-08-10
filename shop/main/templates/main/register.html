@@ -1,0 +1,21 @@
+{% extends "main/main.html" %}
+
+{% block title %}<title>Регистрация акаунта</title>{% endblock %}
+
+{% block content %}
+    <h1>Регистрация акаунта</h1>
+    <p>Введите свои данные для регистрации</p>
+    <form action="/register/" method="post">
+        {{ user_form.as_p }}
+        {% csrf_token %}
+        
+        <p>Номер телефона<input type="tel" name="telephone" /></p>
+        <p>День рождения<input type="date" name="Date_of_Birth" /></p>
+        <p>Адрес<input type="text" name="Address" /></p>
+        <select name="gender" size="2" >
+            <option selected value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+        </select>
+        <p><input type="submit" value="Зарегестрировать мой акаунт"></p>
+    </form>
+{% endblock %}

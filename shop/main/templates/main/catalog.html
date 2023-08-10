@@ -1,0 +1,32 @@
+{% extends "main/main.html" %}
+{% load static %}
+{% block title %}
+	<title>Католог</title>
+{% endblock %}
+{% block content %}
+	{% for i in catolog %}
+
+		<div class="card mb-3" style="max-width: 540px;">
+		  <div class="row g-0">
+		    <div class="col-md-4">
+		      <img src='{{i.img.url}}'  class="img-fluid rounded-start"/>
+		    </div>
+		    <div class="col-md-8">
+		      <div class="card-body">
+		        <h3 class="card-title">{{i.name}}</h3>
+		        <p class="card-text">
+				<form method="catolog" action="products/{{i.id}}/">
+					{% csrf_token %}	
+					<input type="submit" name="{{i.name}}" value="Просмотреть"  class="btn btn-outline-primary"/> 
+				</form>
+
+		        </p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	{% endfor %}
+{% endblock %}
+
+
+
