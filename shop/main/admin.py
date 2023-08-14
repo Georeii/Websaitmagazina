@@ -11,6 +11,10 @@ admin.site.register(Product)
 
 admin.site.register(dop_img_product)
 
-admin.site.register(shopping_cart)
+admin.site.register(Shopping_cart)
 
 admin.site.register(order)
+
+admin.site.register(Product_Block_SC)
+
+

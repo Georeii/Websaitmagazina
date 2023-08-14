@@ -9,7 +9,7 @@ class Product(models.Model):
 	description_small = models.CharField(max_length = 400) 
 	price = models.FloatField()
 	img = models.ImageField( upload_to='images')
-	id_catolog = models.IntegerField()
+	id_catolog = models.ForeignKey('Catolog',on_delete = models.CASCADE)
 	def __str__(self):
 		return self.name
 	class Meta:
@@ -47,7 +47,6 @@ class Viewed(models.Model):
 
 
 class Catolog(models.Model):
-	id_catolog = models.IntegerField()
 	name = models.TextField()
 	img = models.ImageField( upload_to='images/cat')
 	def __str__(self):
@@ -57,12 +56,19 @@ class Catolog(models.Model):
 		verbose_name_plural = "катологи"
 
 
-class shopping_cart(models.Model):
-	product = models.ForeignKey('Product', on_delete = models.CASCADE)
+class Shopping_cart(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
 	class Meta:
 		verbose_name = "корзина"
 		verbose_name_plural = "корзины"
+
+
+class Product_Block_SC(models.Model):
+	product = models.OneToOneField('Product', on_delete = models.CASCADE)
+	col_product = models.IntegerField()
+	shopping_cart = models.ForeignKey('Shopping_cart', on_delete = models.CASCADE)
+	
+
 
 class order(models.Model):
 	product = models.ForeignKey('Product', on_delete = models.CASCADE)

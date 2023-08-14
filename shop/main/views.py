@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponseRedirect 
-from .models import Catolog, Product,dop_img_product, Profil
-from .forms import  UserRegistrationForm,UserSingForm
+from .models import *
+from .forms import  *
 from django.contrib.auth import login, authenticate
 
 def register(request):
@@ -21,6 +21,10 @@ def register(request):
 			new_profil.gender = request.POST.get("gender")
 			new_profil.user=new_user
 			new_profil.save()
+			# -----------------
+			hopping_cart = shopping_cart()
+			hopping_cart.user = new_user
+			hopping_cart.save()
 			return render(request, 'main/register_done.html', {'new_user': new_user})
 	else:
 		user_form = UserRegistrationForm()
@@ -34,13 +38,16 @@ def Login_sing(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
-					return HttpResponseRedirect("personal_area")
+					return HttpResponseRedirect("/personal_area")
 				else:
-					return HttpResponse('Disabled account')
+					form = UserSingForm()
+					return render(request, "main/login.html",{"form":form,"sms":"Акаунт не найден"})
 			else:
-				return HttpResponse('Invalid login')
+				form = UserSingForm()
+				return render(request, "main/login.html",{"form":form,"sms":"пароль или логин введен не правильно"})	
 	else:
-		return HttpResponseRedirect("personal_area")
+		form = UserSingForm()
+		return render(request, "main/login.html",{"form":form})
 
 def catalog(request):
 	catolog = Catolog.objects.all()
@@ -63,15 +70,33 @@ def product_car(request,ids):
 	except:
 		return render(request, "main/product.html",{'product_osn': product_osn})
 
+def add_shopping_cart(request,ids):
+	# if request.method == "POST":
+
+	shopping_cart = Shopping_cart.objects.filter(user = request.user)
+	col = request.POST.get(col)
+	product = Product.objects.get(id = ids)
+
+	product_block_sc = Product_Block_SC()
+	product_block_sc.product = product
+	product_block_sc.col = col
+	product_block_sc.shopping_cart = shopping_cart
+	product_block_sc.save()
+	return HttpResponseRedirect(f"/product/{ids}")
+
 
 def shopping_cart():
 	pass
 
 
 def personal_area(request):
-	profils = Profil.objects.filter(user = request.user)
-	for profil in profils:
-		return render(request, "main/personal_area.html",{"profil":profil})
+	try:
+		profils = Profil.objects.filter(user = request.user)
+		for profil in profils:
+			return render(request, "main/personal_area.html",{"profil":profil})
+	except:
+		return render(request, "main/personal_area.html")
+
 
 def changing_user_data(request):
 	if request.method == 'POST':

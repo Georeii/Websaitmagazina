@@ -43,9 +43,11 @@
 
 	<div style="float: left; width: 50%; height: 50px;">
 		<h4>{{product_osn.name}}</h4>
-		<form method="post" action="">
-			<input type="text" value="1"/>
-			<imput type="submit"  value="добавить в корзину" name="добавить в корзину" class="btn btn-outline-primary">
+		<h3>{{product_osn.price}}</h3>
+		<form method="post" action="/add_shopping_cart/{{product_osn.id}}/">
+			{% csrf_token %}
+			<input type="text" name="col" value="1"/>
+			<imput type="submit"  value="в корзину"  class="btn btn-outline-primary"/> в корзину
 		</form>
 		
 	</div>

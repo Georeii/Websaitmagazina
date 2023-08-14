@@ -7,23 +7,26 @@
 	<br />
 	<h2>привет {{ user.username|default:'гость' }}</h2>
 	<p>
-		<h2>Личные данные</h2>
-		<form name="password " action="/changing_user_data/" method="post">
-			{% csrf_token %}
-			<input type="text" value="{{user.username}}" name="username"> Имя пользователя<br />
-			<input type="text" value="{{user.first_name}}" name="first_name"> Имя <br />
-			<input type="text" value="{{user.last_name}} "name="last_name"> Фамилия <br />
-			<input type="text" value="{{user.email}}" name="email"> Адрес электроной почты <br />
-			<input type="tel" value="{{profil.telephone}}" name="telephone"> Номер телефона <br />
-			<input type="date" value="{{profil.Date_of_Birth}}" name="Date_of_Birth"> День рождения <br />
-			<input type="text" value="{{profil.Address_pep}}" name="Address"> Адрес<br />
-			<h6>Пол</h6>
-			<select name="gender" size="2" >
-            	<option selected value="Мужской">Мужской</option>
-            	<option value="Женский">Женский</option>
-        	</select><br />
-			<input type="submit" value="Cохранить изменения">
-		</form>
-
+		{% if user.is_authenticated  %}
+			<h2>Личные данные</h2>
+			<form name="password " action="/changing_user_data/" method="post">
+				{% csrf_token %}
+				<input type="text" value="{{user.username}}" name="username"> Имя пользователя<br />
+				<input type="text" value="{{user.first_name}}" name="first_name"> Имя <br />
+				<input type="text" value="{{user.last_name}} "name="last_name"> Фамилия <br />
+				<input type="text" value="{{user.email}}" name="email"> Адрес электроной почты <br />
+				<input type="tel" value="{{profil.telephone}}" name="telephone"> Номер телефона <br />
+				<input type="date" value="{{profil.Date_of_Birth}}" name="Date_of_Birth"> День рождения <br />
+				<input type="text" value="{{profil.Address_pep}}" name="Address"> Адрес<br />
+				<h6>Пол</h6>
+				<select name="gender" size="2" >
+	            	<option selected value="Мужской">Мужской</option>
+	            	<option value="Женский">Женский</option>
+	        	</select><br />
+				<input type="submit" value="Cохранить изменения"class="btn btn-outline-primary">
+			</form>
+		{% else %}
+		<h1><a href="/login">Войдите</a> в Акаунт или <a href="/register">зарегистреструейтесь</a> </h1>
+		{% endif %}
 	</p>
 {% endblock %}
