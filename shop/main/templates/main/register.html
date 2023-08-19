@@ -5,6 +5,7 @@
 {% block content %}
     <h1>Регистрация акаунта</h1>
     <p>Введите свои данные для регистрации</p>
+    <h2>{{sms}}</h2>
     <form action="/register/" method="post">
         {{ user_form.as_p }}
         {% csrf_token %}

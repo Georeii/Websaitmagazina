@@ -6,6 +6,7 @@
 <br />
 	<br />
 	<h2>привет {{ user.username|default:'гость' }}</h2>
+	<h3>{{sms}}</h3>
 	<p>
 		{% if user.is_authenticated  %}
 			<h2>Личные данные</h2>
@@ -26,7 +27,7 @@
 				<input type="submit" value="Cохранить изменения"class="btn btn-outline-primary">
 			</form>
 		{% else %}
-		<h1><a href="/login">Войдите</a> в Акаунт или <a href="/register">зарегистреструейтесь</a> </h1>
+			<h1><a href="/login">Войдите</a> в Акаунт или <a href="/register">зарегистреструейтесь</a> </h1>
 		{% endif %}
 	</p>
 {% endblock %}
