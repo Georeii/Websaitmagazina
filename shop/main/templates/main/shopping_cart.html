@@ -1,0 +1,21 @@
+{% extends "main/main.html" %}
+
+{% block title %}<title>Корзтна</title>{% endblock %}
+
+{% block content %}
+<h1>{{sms}}</h1>
+{% for product in products %}
+<div class="card">
+  <div class="card-body">
+  	<img src="">
+    <h4>{{product.name}} стоимость {{product.price}} </h4>
+    <h5></h5>
+  </div>
+</div>
+{% endfor %}
+<form method="catolog" action="//">
+		{% csrf_token %}	
+		<h3>сумма заказа {{price}} <input type="submit" name="" value="оформить заказ"  class="btn btn-outline-primary"/> </h3>
+</form>
+
+{% endblock %}

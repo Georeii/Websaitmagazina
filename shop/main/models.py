@@ -70,8 +70,7 @@ class Product_Block_SC(models.Model):
 	
 
 
-class order(models.Model):
-	product = models.ForeignKey('Product', on_delete = models.CASCADE)
+class Order(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)
 	city = models.TextField()
 	street = models.CharField(max_length = 200)
@@ -81,3 +80,8 @@ class order(models.Model):
 	class Meta:
 		verbose_name = "Заказ"
 		verbose_name_plural = "заказы"
+
+class Product_Block_O(models.Model):
+	product = models.OneToOneField('Product', on_delete = models.CASCADE)
+	col_product = models.IntegerField()
+	order = models.ForeignKey('Order', on_delete = models.CASCADE)

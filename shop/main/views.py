@@ -80,7 +80,7 @@ def add_shopping_cart(request,ids):
 
 	hopping_cart = Shopping_cart.objects.filter(user = request.user)
 	for i in hopping_cart:
-		shopping_cart_add = hopping_cart
+		shopping_cart_add = i
 	col = request.POST.get("col")
 	product = Product.objects.get(id = ids)
 
@@ -92,8 +92,23 @@ def add_shopping_cart(request,ids):
 	return HttpResponseRedirect(f"/product/{ids}")
 
 
-def shopping_cart():
-	pass
+def shopping_cart(request):
+	if request.user.is_authenticated == True:
+		shopping_cart = Shopping_cart.objects.filter(user = request.user)
+		for i in shopping_cart:
+			product_block_sc = Product_Block_SC.objects.filter(shopping_cart = i)
+		if product_block_sc.count() != 0:
+			product_price = 0
+			product = []
+			for i in product_block_sc:
+				product_price += i.product.price * i.col_product
+				product.append(i.product)
+			return render(request, "main/shopping_cart.html",{"product_block":product_block_sc,"price":product_price,"products":product})
+		else:
+			return render(request, "main/shopping_cart.html",{"sms":"Добавте товаров в корзину"})
+
+	else:
+		return render(request, "main/shopping_cart.html",{"sms":"Войдите в акаунт"})
 
 
 def personal_area(request):
@@ -123,3 +138,7 @@ def changing_user_data(request):
 			i.gender = request.POST.get("gender")
 			i.save()
 		return HttpResponseRedirect("/")
+
+def order_user_data(request):
+	pass
+	

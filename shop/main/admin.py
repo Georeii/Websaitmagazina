@@ -13,8 +13,8 @@ admin.site.register(dop_img_product)
 
 admin.site.register(Shopping_cart)
 
-admin.site.register(order)
+admin.site.register(Order)
 
 admin.site.register(Product_Block_SC)
 
-
+admin.site.register(Product_Block_O)
