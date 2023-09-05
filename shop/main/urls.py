@@ -11,6 +11,6 @@ urlpatterns = [
     path(r'changing_user_data/', views.changing_user_data, name='changing_user_data'),
     path("shopping_cart",views.shopping_cart, name = "shopping_cart"),
     path("add_shopping_cart/<int:ids>/",views.add_shopping_cart, name = "add_shopping_cart"),
-    path("order_user_data/<int:ids>/",views.order_user_data, name = "order_user_data"),
+    path("order_user_data/",views.order_user_data, name = "order_user_data"),
 
 ]

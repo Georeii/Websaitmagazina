@@ -94,21 +94,27 @@ def add_shopping_cart(request,ids):
 
 def shopping_cart(request):
 	if request.user.is_authenticated == True:
-		shopping_cart = Shopping_cart.objects.filter(user = request.user)
-		for i in shopping_cart:
-			product_block_sc = Product_Block_SC.objects.filter(shopping_cart = i)
+		shopping_cart = Shopping_cart.objects.get(user = request.user)
+		product_block_sc = Product_Block_SC.objects.filter(shopping_cart = shopping_cart)
 		if product_block_sc.count() != 0:
 			product_price = 0
 			product = []
 			for i in product_block_sc:
 				product_price += i.product.price * i.col_product
 				product.append(i.product)
-			return render(request, "main/shopping_cart.html",{"product_block":product_block_sc,"price":product_price,"products":product})
 		else:
 			return render(request, "main/shopping_cart.html",{"sms":"Добавте товаров в корзину"})
 
 	else:
 		return render(request, "main/shopping_cart.html",{"sms":"Войдите в акаунт"})
+	orders = Order.objects.get(user = request.user)
+	product_block_o = Product_Block_O.objects.filter(order = orders)
+	product_order = []
+	price_order = 0
+	for i in product_block_o:
+			product_price += i.product.price * i.col_product
+			product.append(i.product)
+	return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order})
 
 
 def personal_area(request):
@@ -140,5 +146,21 @@ def changing_user_data(request):
 		return HttpResponseRedirect("/")
 
 def order_user_data(request):
-	pass
-	
+	if request.user.is_authenticated == True and request.method == 'POST':
+		shopping_cart = Shopping_cart.objects.get(user = request.user)
+		product_block_sc = Product_Block_SC.objects.filter(shopping_cart = shopping_cart)
+		order = Order()
+		order.user = request.user
+		order.city = request.POST.get("city")
+		order.street = request.POST.get("street")
+		order.home = request.POST.get("home")
+		order.order_status = 2
+		order.payment_status = 1
+		order.save()
+		for product_block_s in product_block_sc:
+			product_block_o = Product_Block_O()
+			product_block_o.product = product_block_s.product
+			product_block_o.col_product = product_block_s.col_product
+			product_block_o.order = order
+			product_block_o.save()
+		return HttpResponseRedirect("/",{"sms":"заказ зарегистрирован"})
