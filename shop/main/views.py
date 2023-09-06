@@ -113,8 +113,8 @@ def shopping_cart(request):
 	price_order = 0
 	for i in product_block_o:
 			product_price += i.product.price * i.col_product
-			product.append(i.product)
-	return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order})
+			product_order.append(i.product)
+	return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order,"orders":orders})
 
 
 def personal_area(request):

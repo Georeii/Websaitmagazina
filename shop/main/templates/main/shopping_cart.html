@@ -4,6 +4,7 @@
 
 {% block content %}
 <h1>{{sms}}</h1>
+<h1>Корзина</h1>
 {% for product in products %}
 <div class="card">
   <div class="card-body">
@@ -12,7 +13,7 @@
     <h5></h5>
   </div>
 </div>
-<h1>Заказ</h1>
+<h1>Оформление заказа</h1>
 {% endfor %}
 <br/>
 <form method="POST" action="/order_user_data/">
@@ -23,7 +24,11 @@
     <h3>сумма заказа {{price}} <input type="submit" name="" value="оформить заказ"  class="btn btn-outline-primary"/> </h3>
 </form>
 
-
+<br />
+<br />
+<br />
+<br />
+<h2>Заказы</h2>
 {% for products_order in product_order %}
 <div class="card">
   <div class="card-body">
@@ -32,7 +37,6 @@
     <h5></h5>
   </div>
 </div>
-
 {% endfor %}
 
 {% endblock %}
