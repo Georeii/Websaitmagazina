@@ -13,8 +13,9 @@
     <h5></h5>
   </div>
 </div>
-<h1>Оформление заказа</h1>
+
 {% endfor %}
+<h1>Оформление заказа</h1>
 <br/>
 <form method="POST" action="/order_user_data/">
 		{% csrf_token %}	
@@ -33,7 +34,7 @@
 <div class="card">
   <div class="card-body">
     <img src="">
-    <h4>{{products_order}} стоимость {{products_order.price}} njdfh </h4>
+    <h4>{{products_order}} стоимость {{products_order.price}} Рублей </h4>
     <h5></h5>
   </div>
 </div>

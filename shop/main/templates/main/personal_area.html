@@ -17,7 +17,7 @@
 				<input type="text" value="{{user.last_name}} "name="last_name"> Фамилия <br />
 				<input type="text" value="{{user.email}}" name="email"> Адрес электроной почты <br />
 				<input type="tel" value="{{profil.telephone}}" name="telephone"> Номер телефона <br />
-				<input type="date" value="{{profil.Date_of_Birth}}" name="Date_of_Birth"> День рождения <br />
+				<input type="date" value="{{profil.Date_of_Birth|date:'Y-m-d'}}" name="Date_of_Birth"> День рождения <br />
 				<input type="text" value="{{profil.Address_pep}}" name="Address"> Адрес<br />
 				<h6>Пол</h6>
 				<select name="gender" size="2" >

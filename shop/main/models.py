@@ -82,6 +82,6 @@ class Order(models.Model):
 		verbose_name_plural = "заказы"
 
 class Product_Block_O(models.Model):
-	product = models.OneToOneField('Product', on_delete = models.CASCADE)
+	product = models.ForeignKey('Product', on_delete = models.CASCADE)
 	col_product = models.IntegerField()
 	order = models.ForeignKey('Order', on_delete = models.CASCADE)

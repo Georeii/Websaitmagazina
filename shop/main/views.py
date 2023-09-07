@@ -82,10 +82,10 @@ def add_shopping_cart(request,ids):
 	for i in hopping_cart:
 		shopping_cart_add = i
 	col = request.POST.get("col")
-	product = Product.objects.get(id = ids)
+	products = Product.objects.get(id = ids)
 
 	product_block_sc = Product_Block_SC()
-	product_block_sc.product = product
+	product_block_sc.product = products
 	product_block_sc.col_product = col
 	product_block_sc.shopping_cart = shopping_cart_add
 	product_block_sc.save()
@@ -93,6 +93,7 @@ def add_shopping_cart(request,ids):
 
 
 def shopping_cart(request):
+	dictionary = {}
 	if request.user.is_authenticated == True:
 		shopping_cart = Shopping_cart.objects.get(user = request.user)
 		product_block_sc = Product_Block_SC.objects.filter(shopping_cart = shopping_cart)
@@ -102,20 +103,40 @@ def shopping_cart(request):
 			for i in product_block_sc:
 				product_price += i.product.price * i.col_product
 				product.append(i.product)
+				dictionary["price"] = product_price
+				dictionary["products"] =  product
 		else:
-			return render(request, "main/shopping_cart.html",{"sms":"Добавте товаров в корзину"})
-
+			dictionary["sms"] = "Добавьте товаров в корзину"
+		orders = Order.objects.filter(user = request.user)
+		if orders != 0:
+			# print(orders)
+			product_block_o = []
+			for j in orders:
+				s = Product_Block_O.objects.filter(order = j)
+				if s.count() != 0:
+					product_block_o.append( s)
+		product_order = []
+		price_order = 0
+		print(product_block_o)
+		for i in product_block_o:
+			for j in i:
+			
+				print(j)
+				product_order.append(j.product)
+		dictionary["product_order"] = product_order
+		dictionary["orders"] = orders
 	else:
-		return render(request, "main/shopping_cart.html",{"sms":"Войдите в акаунт"})
-	orders = Order.objects.get(user = request.user)
-	product_block_o = Product_Block_O.objects.filter(order = orders)
-	product_order = []
-	price_order = 0
-	for i in product_block_o:
-			product_price += i.product.price * i.col_product
-			product_order.append(i.product)
-	return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order,"orders":orders})
+		dictionary["sms"] = "Войдите в акаунт"
+		# return render(request, "main/shopping_cart.html",{"sms":"Войдите в акаунт"})
+	# try:
+	
 
+
+		# return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order,"orders":orders})
+	# except:
+	print(dictionary)
+	return render(request, "main/shopping_cart.html",dictionary)
+	
 
 def personal_area(request):
 	try:
@@ -163,4 +184,5 @@ def order_user_data(request):
 			product_block_o.col_product = product_block_s.col_product
 			product_block_o.order = order
 			product_block_o.save()
-		return HttpResponseRedirect("/",{"sms":"заказ зарегистрирован"})
+			product_block_s.delete()
+		return HttpResponseRedirect("/shopping_cart",{"sms":"заказ зарегистрирован"})
