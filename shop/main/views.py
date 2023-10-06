@@ -117,24 +117,17 @@ def shopping_cart(request):
 					product_block_o.append( s)
 		product_order = []
 		price_order = 0
-		print(product_block_o)
+		# print(product_block_o)
 		for i in product_block_o:
 			for j in i:
 			
-				print(j)
+				# print(j)
 				product_order.append(j.product)
 		dictionary["product_order"] = product_order
 		dictionary["orders"] = orders
 	else:
 		dictionary["sms"] = "Войдите в акаунт"
-		# return render(request, "main/shopping_cart.html",{"sms":"Войдите в акаунт"})
-	# try:
-	
-
-
-		# return render(request, "main/shopping_cart.html",{"price":product_price,"products":product,"price_order":price_order,"product_order":product_order,"orders":orders})
-	# except:
-	print(dictionary)
+	# print(dictionary)
 	return render(request, "main/shopping_cart.html",dictionary)
 	
 
